@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
-public class MemoryRepositoryLoader {
+public class MemoryLoader {
 
 	private final static String PROVINCE_FILE = "provinces.json";
 

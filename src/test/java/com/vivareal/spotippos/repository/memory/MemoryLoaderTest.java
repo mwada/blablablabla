@@ -15,13 +15,13 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
-public class MemoryRepositoryLoaderTest {
+public class MemoryLoaderTest {
 
-	private MemoryRepositoryLoader loader;
+	private MemoryLoader loader;
 
 	@Before
 	public void before() {
-		loader = new MemoryRepositoryLoader();
+		loader = new MemoryLoader();
 	}
 
 	@Test
