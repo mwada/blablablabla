@@ -35,6 +35,9 @@
 
 		<!-- Dependencies -->
 		<spring.version>4.3.2.RELEASE</spring.version>
+		<jackson.version>2.8.1</jackson.version>
+		<servlet.version>3.1.0</servlet.version>
+		<jetty.version>9.3.7.v20160115</jetty.version>
 
 		<!-- Test -->
 		<junit.version>4.12</junit.version>
@@ -49,6 +52,30 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- Jetty -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${servlet.version}</version>
+		</dependency>
+
+		<!-- Json -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 
 		<!-- Log -->
