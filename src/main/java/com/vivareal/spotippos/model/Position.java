@@ -16,7 +16,7 @@ public class Position implements Serializable {
 		provinceNames = new HashSet<>();
 		propertyIds = new HashSet<>();
 	}
-	
+
 	public Position(Coordinate coordinate) {
 		this();
 		this.coordinate = coordinate;
@@ -52,6 +52,21 @@ public class Position implements Serializable {
 
 	public void addProperty(Long id) {
 		propertyIds.add(id);
+	}
+
+	public Position withCoordinate(Coordinate coordinate) {
+		setCoordinate(coordinate);
+		return this;
+	}
+
+	public Position withProvinceNames(Set<String> provinceNames) {
+		setProvinceNames(provinceNames);
+		return this;
+	}
+
+	public Position withPropertyIds(Set<Long> propertyIds) {
+		setPropertyIds(propertyIds);
+		return this;
 	}
 
 }

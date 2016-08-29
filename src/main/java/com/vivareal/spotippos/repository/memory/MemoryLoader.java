@@ -2,6 +2,7 @@ package com.vivareal.spotippos.repository.memory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,13 @@ public class MemoryLoader {
 
 	private final static String PROPERTY_FILE = "properties.json";
 	
-	protected Map<String, Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
+	protected List<Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource(PROVINCE_FILE).getFile());
-		return new ObjectMapper().readValue(file, new TypeReference<Map<String, Province>>() {
+		Map<String, Province> provinces =  new ObjectMapper().readValue(file, new TypeReference<Map<String, Province>>() {
 		});
+		provinces.forEach((name, province)->province.setName(name));
+		return new ArrayList<>(provinces.values());
 	}
 
 	protected List<Property> loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {

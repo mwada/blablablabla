@@ -16,29 +16,29 @@ public class MemoryPropertyDao implements PropertyDao {
 
 	private AtomicLong propertySeq;
 
-	private Map<Long, Property> propertyDB;
+	private Map<Long, Property> propertyDb;
 
 	public MemoryPropertyDao() {
 		propertySeq = new AtomicLong(1);
-		propertyDB = new ConcurrentHashMap<>();
+		propertyDb = new ConcurrentHashMap<>();
 	}
 
 	@Override
 	public Property add(Property property) {
 		property.setId(propertySeq.getAndIncrement());
-		propertyDB.put(property.getId(), property);
+		propertyDb.put(property.getId(), property);
 		return property;
 	}
 
 	@Override
 	public Property find(Long id) {
-		return propertyDB.get(id);
+		return propertyDb.get(id);
 	}
 
-	protected void load(List<Property> properties) {
+	protected void loadProperties(List<Property> properties) {
 		for (Property property : properties) {
-			propertyDB.put(property.getId(), property);
+			propertyDb.put(property.getId(), property);
 		}
-		propertySeq.set(Collections.max(propertyDB.keySet()) + 1);
+		propertySeq.set(Collections.max(propertyDb.keySet()) + 1);
 	}
 }

@@ -11,17 +11,16 @@ public class CoordinateTest {
 
 	@Test
 	public void testEqualsCoordinate() {
-		Coordinate a = new Coordinate(0,0);
-		Coordinate b = new Coordinate(0,0);
+		Coordinate a = new Coordinate(0, 0);
+		Coordinate b = new Coordinate(0, 0);
 		assertThat(a.equals(b), is(true));
 	}
 
 	@Test
 	public void testNotEqualsCoordinate() {
-		Coordinate a = new Coordinate(0,0);
-		Coordinate b = new Coordinate(0,1);
+		Coordinate a = new Coordinate(0, 0);
+		Coordinate b = new Coordinate(0, 1);
 		assertThat(a.equals(b), is(false));
 	}
-
 
 }

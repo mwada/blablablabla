@@ -24,5 +24,17 @@ public class Province implements Serializable {
 	public void setBoundaries(Boundaries boundaries) {
 		this.boundaries = boundaries;
 	}
+	
+	public Province withName(String name) {
+		setName(name);
+		return this;
+	}
+	
+	public Province withBoundaries(Boundaries boundaries) {
+		setBoundaries(boundaries);
+		return this;
+	}
+
+
 
 }

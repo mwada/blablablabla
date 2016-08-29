@@ -2,10 +2,12 @@ package com.vivareal.spotippos.repository.memory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,8 +28,11 @@ public class MemoryLoaderTest {
 
 	@Test
 	public void testLoadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
-		Map<String, Province> provinces = loader.loadProvinceFile();
-		assertThat(provinces.keySet(), hasSize(6));
+		List<Province> provinces = loader.loadProvinceFile();
+		assertThat(provinces, hasSize(6));
+		for (Province province : provinces) {
+			assertThat(province.getName(), is(not(nullValue())));
+		}
 	}
 
 	@Test

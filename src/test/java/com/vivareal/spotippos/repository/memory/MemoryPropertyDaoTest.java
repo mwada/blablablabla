@@ -23,14 +23,14 @@ public class MemoryPropertyDaoTest {
 
 	private AtomicLong propertySeq;
 
-	private Map<Long, Property> propertyDB;
+	private Map<Long, Property> propertyDb;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Before
 	public void before() {
 		dao = new MemoryPropertyDao();
 		propertySeq = (AtomicLong) Whitebox.getInternalState(dao, "propertySeq");
-		propertyDB = (Map) Whitebox.getInternalState(dao, "propertyDB");
+		propertyDb = (Map) Whitebox.getInternalState(dao, "propertyDb");
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class MemoryPropertyDaoTest {
 		assertThat(retrievedProperty, new ReflectionEquals(property, "id"));
 		Long id = property.getId();
 		assertThat(id, is(propertySeq.get() - 1));
-		assertThat(retrievedProperty, new ReflectionEquals(propertyDB.get(id)));
+		assertThat(retrievedProperty, new ReflectionEquals(propertyDb.get(id)));
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class MemoryPropertyDaoTest {
 	public void testFindValidProperty() {
 		Property property = createProperty(0L);
 		property.setId(propertySeq.getAndIncrement());
-		propertyDB.put(property.getId(), property);
+		propertyDb.put(property.getId(), property);
 		Property retrievedProperty = dao.find(1L);
 		assertThat(retrievedProperty, new ReflectionEquals(property));
 	}
@@ -61,9 +61,9 @@ public class MemoryPropertyDaoTest {
 	@Test
 	public void testLoadProperties() {
 		List<Property> properties = Arrays.asList(createProperty(1L), createProperty(2L));
-		dao.load(properties);
-		assertThat(propertyDB.keySet(), hasSize(2));
-		assertThat(propertyDB.keySet().containsAll(Arrays.asList(1L, 2L)), is(true));
+		dao.loadProperties(properties);
+		assertThat(propertyDb.keySet(), hasSize(2));
+		assertThat(propertyDb.keySet().containsAll(Arrays.asList(1L, 2L)), is(true));
 		assertThat(propertySeq.get(), is(3L));
 	}
 	
