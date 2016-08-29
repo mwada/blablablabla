@@ -104,7 +104,7 @@ public class MemoryTerritoryDaoTest {
 		territoryDb.put(new Coordinate(1,1), createPosition(new Coordinate(1,1), new HashSet<>(Arrays.asList(3L))));
 		territoryDb.put(new Coordinate(5,5), createPosition(new Coordinate(5,5), new HashSet<>(Arrays.asList(4L))));
 		territoryDb.put(new Coordinate(6,6), createPosition(new Coordinate(6,6), new HashSet<>(Arrays.asList(5L))));
-		Boundaries boundaries = new Boundaries(0,0,5,5);
+		Boundaries boundaries = new Boundaries(0,5,5,0);
 		Set<Long> ids = dao.findProperties(boundaries);
 		assertThat(ids, hasSize(4));
 		assertThat(ids.containsAll(Arrays.asList(1L, 2L, 3L, 4L)), is(true));
@@ -113,8 +113,8 @@ public class MemoryTerritoryDaoTest {
 	@Test
 	public void testLoadTerritory() {
 		List<Province> provinces = Arrays.asList(
-				createProvince("Gode", 0, 0, 3, 3),
-				createProvince("Ruja", 1, 1, 5, 5)
+				createProvince("Gode", 0, 3, 3, 0),
+				createProvince("Ruja", 1, 5, 5, 1)
 				);
 		List<Property> properties = Arrays.asList(
 				createProperty(1L).withX(0).withY(0), 

@@ -23,7 +23,7 @@ public class BoundariesTest {
 
 	@Test
 	public void testXCoordinates() {
-		Boundaries boundaries = new Boundaries(0, 0, 0, 9);
+		Boundaries boundaries = new Boundaries(0, 9, 0, 0);
 		List<Coordinate> coordinates = boundaries.getCoordinates();
 		assertThat(coordinates, hasSize(10));
 		for (int i = 0; i < 10; i++) {
@@ -45,7 +45,7 @@ public class BoundariesTest {
 
 	@Test
 	public void testXYCoordinates() {
-		Boundaries boundaries = new Boundaries(0, 0, 9, 9);
+		Boundaries boundaries = new Boundaries(0, 9, 9, 0);
 		List<Coordinate> coordinates = boundaries.getCoordinates();
 		assertThat(coordinates, hasSize(100));
 		for (int i = 0; i < 10; i++) {

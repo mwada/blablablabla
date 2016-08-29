@@ -41,7 +41,7 @@ public class Boundaries implements Serializable {
 	public List<Coordinate> getCoordinates() {
 		List<Coordinate> coordinates = new ArrayList<>();
 		for (int x = upperLeft.getX(); x <= bottomRight.getX(); x++) {
-			for (int y = upperLeft.getY(); y <= bottomRight.getY(); y++) {
+			for (int y = bottomRight.getY(); y <= upperLeft.getY(); y++) {
 				coordinates.add(new Coordinate(x, y));
 			}
 		}
