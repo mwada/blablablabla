@@ -101,9 +101,60 @@ public class Property implements Serializable {
 	public void setSquareMeters(Integer squareMeters) {
 		this.squareMeters = squareMeters;
 	}
-	
+
 	public Coordinate getCoordinate() {
 		return new Coordinate(this.getX(), this.getY());
 	}
+
+	public Property withId(Long id) {
+		setId(id);
+		return this;
+	}
+
+	public Property withTitle(String title) {
+		setTitle(title);
+		return this;
+	}
+
+	public Property withPrice(Integer price) {
+		setPrice(price);
+		return this;
+	}
+
+	public Property withDescription(String description) {
+		setDescription(description);
+		return this;
+	}
+
+	public Property withX(Integer x) {
+		setX(x);
+		return this;
+	}
+
+	public Property withY(Integer y) {
+		setY(y);
+		return this;
+	}
+
+	public Property withBeds(Integer beds) {
+		setBeds(beds);
+		return this;
+	}
+
+	public Property withBaths(Integer baths) {
+		setBaths(baths);
+		return this;
+	}
+
+	public Property withProvinces(Set<String> provinces) {
+		setProvinces(provinces);
+		return this;
+	}
+	
+	public Property withSquareMeters(Integer squareMeters) {
+		setSquareMeters(squareMeters);
+		return this;
+	}
+
 
 }
