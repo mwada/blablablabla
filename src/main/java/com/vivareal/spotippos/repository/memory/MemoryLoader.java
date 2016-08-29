@@ -1,7 +1,7 @@
 package com.vivareal.spotippos.repository.memory;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +21,9 @@ import com.vivareal.spotippos.model.Province;
 @Service
 public class MemoryLoader {
 
-	private final static String PROVINCE_FILE = "provinces.json";
+	private final static String PROVINCE_FILE = "/provinces.json";
 
-	private final static String PROPERTY_FILE = "properties.json";
+	private final static String PROPERTY_FILE = "/properties.json";
 
 	@Autowired
 	private MemoryTerritoryDao memoryTerritoryDao;
@@ -40,18 +40,16 @@ public class MemoryLoader {
 	}
 	
 	protected List<Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(PROVINCE_FILE).getFile());
-		Map<String, Province> provinces =  new ObjectMapper().readValue(file, new TypeReference<Map<String, Province>>() {
+	    InputStream in = getClass().getResourceAsStream(PROVINCE_FILE);
+		Map<String, Province> provinces =  new ObjectMapper().readValue(in, new TypeReference<Map<String, Province>>() {
 		});
 		provinces.forEach((name, province)->province.setName(name));
 		return new ArrayList<>(provinces.values());
 	}
 
 	protected List<Property> loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(PROPERTY_FILE).getFile());
-		Properties properties = new ObjectMapper().readValue(file, new TypeReference<Properties>() {
+	    InputStream in = getClass().getResourceAsStream(PROPERTY_FILE);
+		Properties properties = new ObjectMapper().readValue(in, new TypeReference<Properties>() {
 		});
 		return properties.getProperties();
 	}
