@@ -111,34 +111,37 @@ public class MemoryTerritoryDaoTest {
 	}
 
 	@Test
-	public void testLoadProperties() {
+	public void testLoadTerritory() {
+		List<Province> provinces = Arrays.asList(
+				createProvince("Gode", 0, 0, 3, 3),
+				createProvince("Ruja", 1, 1, 5, 5)
+				);
 		List<Property> properties = Arrays.asList(
 				createProperty(1L).withX(0).withY(0), 
 				createProperty(2L).withX(0).withY(0),
-				createProperty(3L).withX(1).withY(1)
+				createProperty(3L).withX(2).withY(2)
 				);
-		dao.loadProperties(properties);
-		assertThat(territoryDb.get(new Coordinate(0,0)).getPropertyIds(), hasSize(2));
-		assertThat(territoryDb.get(new Coordinate(0,0)).getPropertyIds().containsAll(Arrays.asList(1L, 2L)), is(true));
-		assertThat(territoryDb.get(new Coordinate(1,1)).getPropertyIds(), hasSize(1));
-		assertThat(territoryDb.get(new Coordinate(1,1)).getPropertyIds().containsAll(Arrays.asList(3L)), is(true));
-		assertThat(territoryDb.get(new Coordinate(2,2)), is(nullValue()));
-	}
-
-	@Test
-	public void testLoadProvinces() {
-		List<Province> provinces = Arrays.asList(
-				createProvince("Gode", 0, 0, 5, 5),
-				createProvince("Ruja", 3, 3, 7, 7)
-				);
-		dao.loadProvinces(provinces);
-		assertThat(territoryDb.get(new Coordinate(0,0)).getProvinceNames(), hasSize(1));
-		assertThat(territoryDb.get(new Coordinate(0,0)).getProvinceNames().containsAll(Arrays.asList("Gode")), is(true));
-		assertThat(territoryDb.get(new Coordinate(4,4)).getProvinceNames(), hasSize(2));
-		assertThat(territoryDb.get(new Coordinate(4,4)).getProvinceNames().containsAll(Arrays.asList("Gode", "Ruja")), is(true));
-		assertThat(territoryDb.get(new Coordinate(6,6)).getProvinceNames(), hasSize(1));
-		assertThat(territoryDb.get(new Coordinate(6,6)).getProvinceNames().containsAll(Arrays.asList("Ruja")), is(true));
-		assertThat(territoryDb.get(new Coordinate(8,8)), is(nullValue()));
+		properties = dao.loadTerritory(provinces, properties);
+		assertThat(properties.get(0).getProvinces().containsAll(Arrays.asList("Gode")), is(true));
+		assertThat(properties.get(1).getProvinces().containsAll(Arrays.asList("Gode")), is(true));
+		assertThat(properties.get(2).getProvinces().containsAll(Arrays.asList("Gode", "Ruja")), is(true));
+		
+		Coordinate coordinate = new Coordinate(0,0);
+		assertThat(territoryDb.get(coordinate).getProvinceNames(), hasSize(1));
+		assertThat(territoryDb.get(coordinate).getProvinceNames().containsAll(Arrays.asList("Gode")), is(true));
+		assertThat(territoryDb.get(coordinate).getPropertyIds(), hasSize(2));
+		assertThat(territoryDb.get(coordinate).getPropertyIds().containsAll(Arrays.asList(1L, 2L)), is(true));
+		coordinate = new Coordinate(2,2);
+		assertThat(territoryDb.get(coordinate).getProvinceNames(), hasSize(2));
+		assertThat(territoryDb.get(coordinate).getProvinceNames().containsAll(Arrays.asList("Gode", "Ruja")), is(true));
+		assertThat(territoryDb.get(coordinate).getPropertyIds(), hasSize(1));
+		assertThat(territoryDb.get(coordinate).getPropertyIds().containsAll(Arrays.asList(3L)), is(true));
+		coordinate = new Coordinate(4,4);
+		assertThat(territoryDb.get(coordinate).getProvinceNames(), hasSize(1));
+		assertThat(territoryDb.get(coordinate).getProvinceNames().containsAll(Arrays.asList("Ruja")), is(true));
+		assertThat(territoryDb.get(coordinate).getPropertyIds(), hasSize(0));
+		coordinate = new Coordinate(6,6);
+		assertThat(territoryDb.get(coordinate), is(nullValue()));
 	}
 	
 	private Position createPosition(Coordinate coordinate) {
