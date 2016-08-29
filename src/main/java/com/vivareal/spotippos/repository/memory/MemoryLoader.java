@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -13,11 +18,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
+@Service
 public class MemoryLoader {
 
 	private final static String PROVINCE_FILE = "provinces.json";
 
 	private final static String PROPERTY_FILE = "properties.json";
+
+	@Autowired
+	private MemoryTerritoryDao memoryTerritoryDao;
+
+	@Autowired
+	private MemoryPropertyDao memoryPropertyDao;
+	
+	@PostConstruct
+	protected void load() throws JsonParseException, JsonMappingException, IOException {
+		List<Province> provinces = loadProvinceFile();
+		List<Property> properties = loadPropertyFile();
+		properties = memoryTerritoryDao.loadTerritory(provinces, properties);
+		memoryPropertyDao.loadProperties(properties);
+	}
 	
 	protected List<Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
 		ClassLoader classLoader = getClass().getClassLoader();

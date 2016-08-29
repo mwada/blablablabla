@@ -47,18 +47,17 @@ public class MemoryTerritoryDao implements TerritoryDao {
 		return ids;
 	}
 
-	protected void loadProperties(List<Property> properties) {
-		for (Property property : properties) {
-			addProperty(property.getCoordinate(), property.getId());
-		}
-	}
-	
-	protected void loadProvinces(List<Province> provinces) {
+	protected List<Property> loadTerritory(List<Province> provinces, List<Property> properties) {
 		for (Province province : provinces) {
 			for (Coordinate coordinate : province.getBoundaries().getCoordinates()) {
 				addProvince(coordinate, province.getName());
 			}
 		}
+		for (Property property : properties) {
+			addProperty(property.getCoordinate(), property.getId());
+			property.setProvinces(findProvinces(property.getCoordinate()));
+		}
+		return properties;
 	}
 	
 	protected void addProvince(Coordinate coordinate, String name) {
