@@ -1,43 +1,41 @@
 # Spotippos REST API
 
-Code implementation for Viva Real back-end challenge.
-More information: [Viva Real Back-End Challenge] (https://github.com/VivaReal/code-challenge/blob/master/backend.md)
+Code implementation for [Viva Real back-end challenge](https://github.com/VivaReal/code-challenge/blob/master/backend.md).
 
 ## Requirements
-------------
+
 * [Docker](https://www.docker.com)
 
 ## Stack
-------------
-* [Java 8]
+
+* [Java 8](http://openjdk.java.net/)
 * [Apache Maven 3.3](http://maven.apache.org/)
 * [Spring Boot](http://projects.spring.io/spring-boot/)
 * [Jetty 9.3](http://www.eclipse.org/jetty/)
 * [Swagger 2.0](http://swagger.io/)
 
-
 ## Running application from source
------------------------------
+
 ```sh
 $ docker build -t spotippos .
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it spotippos
 ```
 
 ## Running application from docker image
------------------------------
+
 ```sh
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it mwada/spotippos
 ```
 
 ## Useful Endpoints
-[REST Documentation] (http://localhost:8080/swagger-ui.html)
-[App Info] (http://localhost:8080/info)
-[Health Check] (http://localhost:8080/health)
-[Metrics] (http://localhost:8080/metrics)
 
+* [REST Documentation] (http://localhost:8080/swagger-ui.html)
+* [App Info] (http://localhost:8080/info)
+* [Health Check] (http://localhost:8080/health)
+* [Metrics] (http://localhost:8080/metrics)
 
 ## REST API
------------------------------
+
 ### 1. Create properties
 Request:
 ```
@@ -61,15 +59,15 @@ Response:
 ```json
 {
   "id": 665,
-  "title": "Imóvel código 665, com 1 quarto e 1 banheiro",
-  "price": 540000,
+  "title": "Imóvel código 1, com 5 quartos e 4 banheiros",
+  "price": 1250000,
   "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "x": 667,
-  "y": 556,
-  "beds": 1,
-  "baths": 1,
+  "x": 222,
+  "y": 444,
+  "beds": 4,
+  "baths": 3,
   "provinces" : ["Ruja"],
-  "squareMeters": 42
+  "squareMeters": 210
 }
 ```
 
@@ -79,6 +77,7 @@ $ curl
 ```
 
 ### 2. Get properties
+
 Request:
 ```
 GET /properties/{id}
@@ -106,6 +105,7 @@ $ curl
 ```
 
 ### 3. Find properties
+
 Request:
 ```
 GET /properties?ax={integer}&ay={integer}&bx={integer}&by={integer}
@@ -138,3 +138,5 @@ Example:
 ```sh
 $ curl
 ```
+
+### Improvements
