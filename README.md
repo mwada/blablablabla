@@ -1,4 +1,4 @@
-# Spotippos API
+# Spotippos REST API
 
 Code implementation for Viva Real back-end challenge.
 More information: [Viva Real Back-End Challenge] (https://github.com/VivaReal/code-challenge/blob/master/backend.md)
@@ -29,14 +29,16 @@ $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it spotippos
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it mwada/spotippos
 ```
 
+## Useful Endpoints
+[REST Documentation] (http://localhost:8080/swagger-ui.html)
+[App Info] (http://localhost:8080/info)
+[Health Check] (http://localhost:8080/health)
+[Metrics] (http://localhost:8080/metrics)
+
+
 ## REST API
 -----------------------------
-### Swagger documentation
-```
-http://localhost:8080/swagger-ui.html
-```
-
-### Create properties
+### 1. Create properties
 Request:
 ```
 POST /properties
@@ -76,7 +78,7 @@ Example:
 $ curl
 ```
 
-### Get properties
+### 2. Get properties
 Request:
 ```
 GET /properties/{id}
@@ -103,7 +105,7 @@ Example:
 $ curl
 ```
 
-### Find properties
+### 3. Find properties
 Request:
 ```
 GET /properties?ax={integer}&ay={integer}&bx={integer}&by={integer}

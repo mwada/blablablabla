@@ -5,9 +5,9 @@
 	<groupId>com.vivareal</groupId>
 	<artifactId>spotippos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Viva Real - Desafio back-end</name>
+	<name>Spotippos REST API</name>
 	<description>
-		<![CDATA[Viva Real - Desafio back-end]]>
+		<![CDATA[Spotippos REST API implementation]]>
 	</description>
 	<url>https://github.com/mwada/spotippos</url>
 
@@ -24,7 +24,7 @@
 	</scm>
 
 	<properties>
-		<maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
+		<maven.build.timestamp.format>dd-MM-yyyy HH:mm:ss</maven.build.timestamp.format>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
@@ -57,6 +57,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 			<version>${spring-boot.version}</version>
 		</dependency>
 
@@ -94,6 +99,12 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
