@@ -7,7 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Property implements Serializable {
 
@@ -78,7 +78,6 @@ public class Property implements Serializable {
 		this.description = description;
 	}
 
-	@JsonGetter("lat")
 	public Integer getX() {
 		return x;
 	}
@@ -87,7 +86,6 @@ public class Property implements Serializable {
 		this.x = x;
 	}
 
-	@JsonGetter("long")
 	public Integer getY() {
 		return y;
 	}
@@ -128,6 +126,7 @@ public class Property implements Serializable {
 		this.squareMeters = squareMeters;
 	}
 
+	@JsonIgnore
 	public Coordinate getCoordinate() {
 		return new Coordinate(this.getX(), this.getY());
 	}

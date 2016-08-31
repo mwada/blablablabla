@@ -2,9 +2,11 @@
 
 Code implementation for [Viva Real back-end challenge](https://github.com/VivaReal/code-challenge/blob/master/backend.md).
 
+
 ## Requirements
 
 * [Docker](https://www.docker.com)
+
 
 ## Stack
 
@@ -14,6 +16,7 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 * [Jetty 9.3](http://www.eclipse.org/jetty/)
 * [Swagger 2.0](http://swagger.io/)
 
+
 ## Running application from source
 
 ```sh
@@ -21,11 +24,13 @@ $ docker build -t spotippos .
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it spotippos
 ```
 
+
 ## Running application from docker image
 
 ```sh
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it mwada/spotippos
 ```
+
 
 ## Endpoints
 
@@ -35,6 +40,7 @@ REST Documentation|/swagger-ui.html
 App Info|/info
 Health Check|/health
 Metrics|/metrics
+
 
 ## REST API
 
@@ -141,4 +147,16 @@ Example:
 $ curl -H "Accept: application/json" http://localhost:8080/properties/ax=0&ay=100&bx=100&by=0
 ```
 
-## Improvementsn 
+## Improvements
+
+This application works with 3 entities:
+* Property: represents a single property with its attributes and coordinate
+* Province: represents a single province with its coordinate
+* Territory: matrix with all Position of the map, where each Position contains a list of property ids and a list of province names
+
+These 3 entities are using memory structures as repositories and should be replaced with real databases for production environment, implementing the repository interfaces (com.vivareal.spotippos.repository.*Repository) to access these storages.
+
+Property and Province could be persisted in a relational database like MySQL.
+Territory could be persisted in a fast data structure storage like Redis.
+
+Redis also has a helpful geospatial structure (Geo) that could improve the territory persistence, with the caveat that it works with radius queries instead of box area.  

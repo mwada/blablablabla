@@ -49,16 +49,27 @@ public class MemoryLoader {
 
 	protected List<Property> loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {
 	    InputStream in = getClass().getResourceAsStream(PROPERTY_FILE);
-		Properties properties = new ObjectMapper().readValue(in, new TypeReference<Properties>() {
+	    JsonProperties properties = new ObjectMapper().readValue(in, new TypeReference<JsonProperties>() {
 		});
 		return properties.getProperties();
 	}
 	
+	public static class JsonProperty extends Property {
+		
+		private static final long serialVersionUID = 1L;
 
-	public static class Properties {
+		public void setLat(Integer x) {
+			this.setX(x);
+		}
+		public void setLong(Integer y) {
+			this.setY(y);
+		}
+	}
+	
+	public static class JsonProperties {
 		private Integer totalProperties;
 
-		private List<Property> properties;
+		private List<JsonProperty> properties;
 
 		public Integer getTotalProperties() {
 			return totalProperties;
@@ -69,7 +80,9 @@ public class MemoryLoader {
 		}
 
 		public List<Property> getProperties() {
-			return properties;
+			List<Property> propertiesList = new ArrayList<>();
+			properties.forEach(p->propertiesList.add((Property) p)); 
+			return propertiesList;
 		}
 	}
 
