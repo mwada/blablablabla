@@ -20,11 +20,11 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 
 ## Running application from docker image
 
-This application uses [CircleCI](https://circleci.com) for Continuous Integration. Every push generates a docker image that is pushed to [Docker Hub](https://hub.docker.com/r/mwada/spotippos/)
+This application uses [CircleCI](https://circleci.com) for Continuous Integration. Every push generates a docker image that is pushed to [Docker Hub](https://hub.docker.com/r/mwada/spotippos/).
 You can run the application using this command:
 
 ```sh
-$ docker run -e JAVA_OPTS='-Xmx1G' -p 8080:8080 -it mwada/spotippos
+$ docker run -p 8080:8080 -it mwada/spotippos
 ```
 
 
@@ -34,7 +34,7 @@ $ docker run -e JAVA_OPTS='-Xmx1G' -p 8080:8080 -it mwada/spotippos
 $ clone https://github.com/mwada/spotippos
 $ cd spotippos
 $ docker build -t mwada/spotippos .
-$ docker run -e JAVA_OPTS='-Xmx1G' -p 8080:8080 -it mwada/spotippos
+$ docker run -p 8080:8080 -it mwada/spotippos
 ```
 
 
@@ -155,14 +155,15 @@ $ curl -H "Accept: application/json" http://localhost:8080/properties/ax=0&ay=10
 
 ## Improvements
 
-This application works with 3 entities:
+The application works with 3 entities:
+
 * Property: represents a single property with its attributes and coordinate
 * Province: represents a single province with its coordinate
-* Territory: matrix with all Position of the map, where each Position contains a list of property ids and a list of province names
+* Territory: matrix with all Position of the map, each Position contains a list of property ids and province names
 
 These 3 entities are using memory structures as repositories and should be replaced with real databases for production environment, implementing the repository interfaces (com.vivareal.spotippos.repository.*Repository) to access these storages.
 
 Property and Province could be persisted in a relational database like MySQL.
 Territory could be persisted in a fast data structure storage like Redis.
 
-Redis also has a helpful geospatial structure (Geo) that could be used to improve the territory persistence, with the caveat that it works with radius queries instead of box area.  
+Redis also has a helpful geospatial structure (Geo) that could be used to improve the territory persistence, with the caveat that it works with radius queries instead of box area. 

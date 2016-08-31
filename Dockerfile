@@ -4,6 +4,8 @@ COPY . /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN mvn install -DskipTests
+RUN mvn install
 
-CMD java $JAVA_OPTS -jar target/spotippos.jar
+CMD ["java","-Xmx1G","-jar","target/spotippos.jar"]
+
+EXPOSE 8080

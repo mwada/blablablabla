@@ -13,12 +13,21 @@ dependencies:
 
 test:
   override:
-    - docker run -d -e JAVA_OPTS='-Xmx1G' -p 8080:8080 mwada/spotippos; sleep 30
+    - docker run -d -e -p 8080:8080 mwada/spotippos; sleep 30
     - curl --retry 10 --retry-delay 5 -v http://localhost:8080/health
 
 deployment:
-  hub:
+  latest:
     branch: master
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mwada/spotippos
+
+  release:
+    tag: /[0-9]+(\.[0-9]+)*/
+    owner: mwada
+    commands:
+      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push mwada/spotippos
+      - docker tag mwada/spotippos mwada/spotippos:$CIRCLE_TAG
+      - docker push mwada/spotippos:$CIRCLE_TAG
