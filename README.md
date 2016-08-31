@@ -20,7 +20,7 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 
 ## Running application from docker image
 
-This application uses [CircleCI](https://circleci.com) for Continuous Integration. Every push generates a docker image that is pushed to [Docker Hub](https://hub.docker.com/r/mwada/spotippos/).
+This application uses [CircleCI](https://circleci.com) for Continuous Integration. Every push or tag release generates a docker image that is pushed to [Docker Hub](https://hub.docker.com/r/mwada/spotippos/).
 You can run the application using this command:
 
 ```sh
@@ -166,4 +166,4 @@ These 3 entities are using memory structures as repositories and should be repla
 Property and Province could be persisted in a relational database like MySQL.
 Territory could be persisted in a fast data structure storage like Redis.
 
-Redis also has a helpful geospatial structure (Geo) that could be used to improve the territory persistence, with the caveat that it works with radius queries instead of box area. 
+Redis also has a helpful geospatial structure (Geo) that could be used to improve the territory persistence, with the caveat that it works with radius queries instead of box area.
