@@ -1,7 +1,6 @@
 package com.vivareal.spotippos.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.boot.test.json.JacksonTester;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,12 +28,7 @@ public class PropertiesResponseTest {
 		assertThat(json.write(response)).isEqualToJson("/propertiesResponse.json");
 	}
 
-	@Test
-	public void testDeserializeProperty() throws IOException {
-		PropertiesResponse response = createPropertiesResponse();
-		assertThat(json.read("/propertiesResponse.json").getObject(), new ReflectionEquals(response));
-	}
-
+	
 	private PropertiesResponse createPropertiesResponse() {
 		return new PropertiesResponse(Arrays.asList(createProperty()));
 	}
