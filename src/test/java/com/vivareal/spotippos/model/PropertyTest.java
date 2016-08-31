@@ -36,7 +36,7 @@ public class PropertyTest {
 			.withBaths(1)
 			.withSquareMeters(42)
 			.withProvinces(new HashSet<>(Arrays.asList("Ruja")));
-		assertThat(this.json.write(property)).isEqualToJson("property.json");
+		assertThat(this.json.write(property)).isEqualToJson("/property.json");
 	}
 
 	
@@ -53,7 +53,7 @@ public class PropertyTest {
 				.withBaths(1)
 				.withSquareMeters(42)
 				.withProvinces(new HashSet<>(Arrays.asList("Ruja")));
-		assertThat(json.read("property.json").getObject(), new ReflectionEquals(property));
+		assertThat(json.read("/property.json").getObject(), new ReflectionEquals(property));
 	}
 
 }

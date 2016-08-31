@@ -13,14 +13,14 @@ import com.vivareal.spotippos.model.Coordinate;
 import com.vivareal.spotippos.model.Position;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
-import com.vivareal.spotippos.repository.TerritoryDao;
+import com.vivareal.spotippos.repository.TerritoryRepository;
 
 @Repository
-public class MemoryTerritoryDao implements TerritoryDao {
+public class MemoryTerritoryRepository implements TerritoryRepository {
 
 	private Map<Coordinate, Position> territoryDb;
 
-	public MemoryTerritoryDao() {
+	public MemoryTerritoryRepository() {
 		territoryDb = new ConcurrentHashMap<>();
 	}
 

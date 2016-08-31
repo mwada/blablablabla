@@ -27,10 +27,10 @@ import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MemoryTerritoryDaoTest {
+public class MemoryTerritoryRepositoryTest {
 
 	@InjectMocks
-	private MemoryTerritoryDao dao  = new MemoryTerritoryDao();
+	private MemoryTerritoryRepository repository  = new MemoryTerritoryRepository();
 
 	@Spy
 	private Map<Coordinate, Position> territoryDb = new HashMap<>();
@@ -38,7 +38,7 @@ public class MemoryTerritoryDaoTest {
 	@Test
 	public void testFindInvalidProvince() {
 		Coordinate coordinate = new Coordinate(0,0);
-		Set<String> names = dao.findProvinces(coordinate);
+		Set<String> names = repository.findProvinces(coordinate);
 		assertThat(names, is(empty()));
 	}
 	
@@ -47,7 +47,7 @@ public class MemoryTerritoryDaoTest {
 		Coordinate coordinate = new Coordinate(0,0);
 		Position position = createPosition(coordinate);
 		territoryDb.put(coordinate, position);
-		Set<String> names = dao.findProvinces(coordinate);
+		Set<String> names = repository.findProvinces(coordinate);
 		assertThat(names.containsAll(position.getProvinceNames()), is(true));
 	}
 	
@@ -55,7 +55,7 @@ public class MemoryTerritoryDaoTest {
 	public void testAddPropertyInNewPosition() {
 		Long id = 1L;
 		Coordinate coordinate = new Coordinate(0,0);
-		dao.addProperty(coordinate, id);
+		repository.addProperty(coordinate, id);
 		Position position = territoryDb.get(coordinate);
 		assertThat(position, is(not(nullValue())));
 		Set<Long> ids = position.getPropertyIds();
@@ -69,7 +69,7 @@ public class MemoryTerritoryDaoTest {
 		Position position = createPosition(coordinate);
 		territoryDb.put(coordinate, position);
 		Long id = 3L;
-		dao.addProperty(coordinate, id);
+		repository.addProperty(coordinate, id);
 		Position retrievedPosition = territoryDb.get(coordinate);
 		assertThat(retrievedPosition, is(not(nullValue())));
 		Set<Long> ids = position.getPropertyIds();
@@ -82,7 +82,7 @@ public class MemoryTerritoryDaoTest {
 	@Test
 	public void testFindEmptyBoundaries() {
 		Boundaries boundaries = new Boundaries(0,0,5,5);
-		Set<Long> ids = dao.findProperties(boundaries);
+		Set<Long> ids = repository.findProperties(boundaries);
 		assertThat(ids, is(empty()));
 	}
 
@@ -93,7 +93,7 @@ public class MemoryTerritoryDaoTest {
 		territoryDb.put(new Coordinate(5,5), createPosition(new Coordinate(5,5), new HashSet<>(Arrays.asList(3L))));
 		territoryDb.put(new Coordinate(6,6), createPosition(new Coordinate(6,6), new HashSet<>(Arrays.asList(4L))));
 		Boundaries boundaries = new Boundaries(5,5,0,0);
-		Set<Long> ids = dao.findProperties(boundaries);
+		Set<Long> ids = repository.findProperties(boundaries);
 		assertThat(ids, is(empty()));
 	}
 
@@ -104,7 +104,7 @@ public class MemoryTerritoryDaoTest {
 		territoryDb.put(new Coordinate(5,5), createPosition(new Coordinate(5,5), new HashSet<>(Arrays.asList(4L))));
 		territoryDb.put(new Coordinate(6,6), createPosition(new Coordinate(6,6), new HashSet<>(Arrays.asList(5L))));
 		Boundaries boundaries = new Boundaries(0,5,5,0);
-		Set<Long> ids = dao.findProperties(boundaries);
+		Set<Long> ids = repository.findProperties(boundaries);
 		assertThat(ids, hasSize(4));
 		assertThat(ids.containsAll(Arrays.asList(1L, 2L, 3L, 4L)), is(true));
 	}
@@ -120,7 +120,7 @@ public class MemoryTerritoryDaoTest {
 				createProperty(2L).withX(0).withY(0),
 				createProperty(3L).withX(2).withY(2)
 				);
-		properties = dao.loadTerritory(provinces, properties);
+		properties = repository.loadTerritory(provinces, properties);
 		assertThat(properties.get(0).getProvinces().containsAll(Arrays.asList("Gode")), is(true));
 		assertThat(properties.get(1).getProvinces().containsAll(Arrays.asList("Gode")), is(true));
 		assertThat(properties.get(2).getProvinces().containsAll(Arrays.asList("Gode", "Ruja")), is(true));

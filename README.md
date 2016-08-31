@@ -12,7 +12,7 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 
 * [Java 8](http://openjdk.java.net/)
 * [Apache Maven 3.3](http://maven.apache.org/)
-* [Spring Boot](http://projects.spring.io/spring-boot/)
+* [Spring Boot 1.4](http://projects.spring.io/spring-boot/)
 * [Jetty 9.3](http://www.eclipse.org/jetty/)
 * [Swagger 2.0](http://swagger.io/)
 
@@ -159,4 +159,4 @@ These 3 entities are using memory structures as repositories and should be repla
 Property and Province could be persisted in a relational database like MySQL.
 Territory could be persisted in a fast data structure storage like Redis.
 
-Redis also has a helpful geospatial structure (Geo) that could improve the territory persistence, with the caveat that it works with radius queries instead of box area.  
+Redis also has a helpful geospatial structure (Geo) that could be used to improve the territory persistence, with the caveat that it works with radius queries instead of box area.  

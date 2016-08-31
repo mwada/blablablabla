@@ -2,7 +2,7 @@ package com.vivareal.spotippos.repository;
 
 import com.vivareal.spotippos.model.Property;
 
-public interface PropertyDao  {
+public interface PropertyRepository  {
 
 	Property add(Property property);
 

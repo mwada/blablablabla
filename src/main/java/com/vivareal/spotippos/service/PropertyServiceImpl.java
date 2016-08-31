@@ -10,30 +10,30 @@ import org.springframework.stereotype.Service;
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.repository.PropertyDao;
-import com.vivareal.spotippos.repository.TerritoryDao;
+import com.vivareal.spotippos.repository.PropertyRepository;
+import com.vivareal.spotippos.repository.TerritoryRepository;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
-	private PropertyDao propertyDao;
+	private PropertyRepository propertyRepository;
 
 	@Autowired
-	private TerritoryDao territoryDao;
+	private TerritoryRepository territoryRepository;
 
 	@Override
 	public Property addProperty(Property property) {
-		Set<String> provinces = territoryDao.findProvinces(property.getCoordinate());
+		Set<String> provinces = territoryRepository.findProvinces(property.getCoordinate());
 		property.setProvinces(provinces);
-		property = propertyDao.add(property);
-		territoryDao.addProperty(property.getCoordinate(), property.getId());
+		property = propertyRepository.add(property);
+		territoryRepository.addProperty(property.getCoordinate(), property.getId());
 		return property;
 	}
 
 	@Override
 	public Property getProperty(Long id) {
-		Property property =  propertyDao.find(id);
+		Property property =  propertyRepository.find(id);
 		if (property == null){
 			throw new EntityNotFoundException(id);
 		}
@@ -43,8 +43,8 @@ public class PropertyServiceImpl implements PropertyService {
 	@Override
 	public List<Property> getProperties(Boundaries boundaries) {
 		List<Property> properties = new ArrayList<>();
-		for (Long id : territoryDao.findProperties(boundaries)) {
-			properties.add(propertyDao.find(id));
+		for (Long id : territoryRepository.findProperties(boundaries)) {
+			properties.add(propertyRepository.find(id));
 		}
 		return properties;
 	}

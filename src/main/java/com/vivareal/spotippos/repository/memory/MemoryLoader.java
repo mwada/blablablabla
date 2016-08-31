@@ -26,10 +26,10 @@ public class MemoryLoader {
 	private final static String PROPERTY_FILE = "/properties.json";
 
 	@Autowired
-	private MemoryTerritoryDao memoryTerritoryDao;
+	private MemoryTerritoryRepository memoryTerritoryDao;
 
 	@Autowired
-	private MemoryPropertyDao memoryPropertyDao;
+	private MemoryPropertyRepository memoryPropertyDao;
 	
 	@PostConstruct
 	protected void load() throws JsonParseException, JsonMappingException, IOException {

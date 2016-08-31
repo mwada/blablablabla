@@ -21,10 +21,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.vivareal.spotippos.model.Property;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MemoryPropertyDaoTest {
+public class MemoryPropertyRepositoryTest {
 
 	@InjectMocks
-	private MemoryPropertyDao dao = new MemoryPropertyDao();
+	private MemoryPropertyRepository repository = new MemoryPropertyRepository();
 
 	@Spy
 	private AtomicLong propertySeq = new AtomicLong(0);
@@ -35,7 +35,7 @@ public class MemoryPropertyDaoTest {
 	@Test
 	public void testAddProperty() {
 		Property property = createProperty(0L);
-		Property retrievedProperty = dao.add(property);
+		Property retrievedProperty = repository.add(property);
 		assertThat(retrievedProperty, new ReflectionEquals(property, "id"));
 		Long id = property.getId();
 		assertThat(id, is(propertySeq.get() - 1));
@@ -44,7 +44,7 @@ public class MemoryPropertyDaoTest {
 
 	@Test
 	public void testFindInvalidProperty() {
-		Property retrievedProperty = dao.find(1L);
+		Property retrievedProperty = repository.find(1L);
 		assertThat(retrievedProperty, is(nullValue()));
 	}
 
@@ -53,14 +53,14 @@ public class MemoryPropertyDaoTest {
 		Property property = createProperty(0L);
 		property.setId(propertySeq.getAndIncrement());
 		propertyDb.put(property.getId(), property);
-		Property retrievedProperty = dao.find(property.getId());
+		Property retrievedProperty = repository.find(property.getId());
 		assertThat(retrievedProperty, new ReflectionEquals(property));
 	}
 	
 	@Test
 	public void testLoadProperties() {
 		List<Property> properties = Arrays.asList(createProperty(1L), createProperty(2L));
-		dao.loadProperties(properties);
+		repository.loadProperties(properties);
 		assertThat(propertyDb.keySet(), hasSize(2));
 		assertThat(propertyDb.keySet().containsAll(Arrays.asList(1L, 2L)), is(true));
 		assertThat(propertySeq.get(), is(3L));

@@ -21,8 +21,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.repository.PropertyDao;
-import com.vivareal.spotippos.repository.TerritoryDao;
+import com.vivareal.spotippos.repository.PropertyRepository;
+import com.vivareal.spotippos.repository.TerritoryRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PropertyServiceTest {
@@ -31,10 +31,10 @@ public class PropertyServiceTest {
 	private PropertyService service = new PropertyServiceImpl();
 
 	@Mock
-	private PropertyDao propertyDao;
+	private PropertyRepository propertyDao;
 
 	@Mock
-	private TerritoryDao territoryDao;
+	private TerritoryRepository territoryDao;
 
 	@Test
 	public void testAddProperty() {

@@ -9,16 +9,16 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Repository;
 
 import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.repository.PropertyDao;
+import com.vivareal.spotippos.repository.PropertyRepository;
 
 @Repository
-public class MemoryPropertyDao implements PropertyDao {
+public class MemoryPropertyRepository implements PropertyRepository {
 
 	private AtomicLong propertySeq;
 
 	private Map<Long, Property> propertyDb;
 
-	public MemoryPropertyDao() {
+	public MemoryPropertyRepository() {
 		propertySeq = new AtomicLong(1);
 		propertyDb = new ConcurrentHashMap<>();
 	}

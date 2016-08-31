@@ -5,7 +5,7 @@ import java.util.Set;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Coordinate;
 
-public interface TerritoryDao  {
+public interface TerritoryRepository  {
 
 	void addProperty(Coordinate coordinate, Long id);
 
