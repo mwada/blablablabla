@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,10 +11,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
@@ -23,22 +24,17 @@ import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.repository.PropertyDao;
 import com.vivareal.spotippos.repository.TerritoryDao;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PropertyServiceTest {
 
-	private PropertyService service;
-	
+	@InjectMocks
+	private PropertyService service = new PropertyServiceImpl();
+
+	@Mock
 	private PropertyDao propertyDao;
 
+	@Mock
 	private TerritoryDao territoryDao;
-
-	@Before
-	public void before() {
-		service = new PropertyServiceImpl();
-		propertyDao = mock(PropertyDao.class);
-        Whitebox.setInternalState(service, "propertyDao", propertyDao);
-		territoryDao = mock(TerritoryDao.class);
-        Whitebox.setInternalState(service, "territoryDao", territoryDao);
-	}
 
 	@Test
 	public void testAddProperty() {

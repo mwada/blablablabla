@@ -8,14 +8,17 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Coordinate;
@@ -23,18 +26,14 @@ import com.vivareal.spotippos.model.Position;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MemoryTerritoryDaoTest {
 
-	private MemoryTerritoryDao dao;
+	@InjectMocks
+	private MemoryTerritoryDao dao  = new MemoryTerritoryDao();
 
-	private Map<Coordinate, Position> territoryDb;
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Before
-	public void before() {
-		dao = new MemoryTerritoryDao();
-		territoryDb = (Map) Whitebox.getInternalState(dao, "territoryDb");
-	}
+	@Spy
+	private Map<Coordinate, Position> territoryDb = new HashMap<>();
 
 	@Test
 	public void testFindInvalidProvince() {

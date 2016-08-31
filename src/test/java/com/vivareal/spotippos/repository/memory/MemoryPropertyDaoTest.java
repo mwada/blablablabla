@@ -6,32 +6,31 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Spy;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import com.vivareal.spotippos.model.Property;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MemoryPropertyDaoTest {
 
-	private MemoryPropertyDao dao;
+	@InjectMocks
+	private MemoryPropertyDao dao = new MemoryPropertyDao();
 
-	private AtomicLong propertySeq;
+	@Spy
+	private AtomicLong propertySeq = new AtomicLong(0);
 
-	private Map<Long, Property> propertyDb;
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@Before
-	public void before() {
-		dao = new MemoryPropertyDao();
-		propertySeq = (AtomicLong) Whitebox.getInternalState(dao, "propertySeq");
-		propertyDb = (Map) Whitebox.getInternalState(dao, "propertyDb");
-	}
+	@Spy
+	private Map<Long, Property> propertyDb = new HashMap<>();
 
 	@Test
 	public void testAddProperty() {
@@ -54,7 +53,7 @@ public class MemoryPropertyDaoTest {
 		Property property = createProperty(0L);
 		property.setId(propertySeq.getAndIncrement());
 		propertyDb.put(property.getId(), property);
-		Property retrievedProperty = dao.find(1L);
+		Property retrievedProperty = dao.find(property.getId());
 		assertThat(retrievedProperty, new ReflectionEquals(property));
 	}
 	
