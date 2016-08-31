@@ -73,7 +73,7 @@ Response:
 
 Example:
 ```sh
-$ curl
+$ curl -H "Content-Type: application/json" -X POST -d '{"x":222,"y":444,"title": "Title","price":1250000,"description":"Description","beds":4,"baths":3,"squareMeters":210}' http://localhost:8080/properties
 ```
 
 ### 2. Get properties
@@ -101,7 +101,7 @@ Response:
 
 Example:
 ```sh
-$ curl
+$ curl -H "Accept: application/json" http://localhost:8080/properties/665
 ```
 
 ### 3. Find properties
@@ -114,7 +114,7 @@ GET /properties?ax={integer}&ay={integer}&bx={integer}&by={integer}
 Response:
 ```json
 {
-  "foundProperties": 3,
+  "foundProperties": 60,
   "properties": [
     {
       "id": 34,
@@ -136,7 +136,7 @@ Response:
 
 Example:
 ```sh
-$ curl
+$ curl -H "Accept: application/json" http://localhost:8080/properties/ax=0&ay=100&bx=100&by=0
 ```
 
-### Improvements
+## Improvementsn 
