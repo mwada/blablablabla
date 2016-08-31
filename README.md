@@ -27,12 +27,14 @@ $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it spotippos
 $ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it mwada/spotippos
 ```
 
-## Useful Endpoints
+## Endpoints
 
-* [REST Documentation] (http://localhost:8080/swagger-ui.html)
-* [App Info] (http://localhost:8080/info)
-* [Health Check] (http://localhost:8080/health)
-* [Metrics] (http://localhost:8080/metrics)
+Description | Endpoint
+------------|---------
+REST Documentation|/swagger-ui.html
+App Info|/info
+Health Check|/health
+Metrics|/metrics
 
 ## REST API
 

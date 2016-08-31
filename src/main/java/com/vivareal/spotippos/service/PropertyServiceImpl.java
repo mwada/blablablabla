@@ -7,10 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.repository.TerritoryDao;
 import com.vivareal.spotippos.repository.PropertyDao;
+import com.vivareal.spotippos.repository.TerritoryDao;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {
@@ -32,7 +33,11 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public Property getProperty(Long id) {
-		return propertyDao.find(id);
+		Property property =  propertyDao.find(id);
+		if (property == null){
+			throw new EntityNotFoundException(id);
+		}
+		return property;
 	}
 
 	@Override

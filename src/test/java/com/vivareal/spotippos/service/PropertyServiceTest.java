@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,6 +17,7 @@ import org.junit.Test;
 import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.mockito.internal.util.reflection.Whitebox;
 
+import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.repository.PropertyDao;
@@ -53,10 +53,9 @@ public class PropertyServiceTest {
 		verify(territoryDao).addProperty(property.getCoordinate(), id);
 	}
 	
-	@Test
+	@Test(expected=EntityNotFoundException.class)
 	public void testFindInvalidProperty() {
-		Property retrievedProperty = service.getProperty(1L);
-		assertThat(retrievedProperty, is(nullValue()));
+		service.getProperty(1L);
 	}
 
 	@Test

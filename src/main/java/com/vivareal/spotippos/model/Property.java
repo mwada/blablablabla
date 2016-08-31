@@ -3,6 +3,10 @@ package com.vivareal.spotippos.model;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 public class Property implements Serializable {
@@ -10,14 +14,36 @@ public class Property implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+
+	@NotNull
 	private String title;
+
+	@NotNull
 	private Integer price;
+
+	@NotNull
 	private String description;
+
+	@Min(0)
+	@Max(1400)
 	private Integer x;
+
+	@Min(0)
+	@Max(1000)
 	private Integer y;
+
+	@Min(1)
+	@Max(5)
 	private Integer beds;
+
+	@Min(1)
+	@Max(4)
 	private Integer baths;
+
 	private Set<String> provinces;
+
+	@Min(20)
+	@Max(240)
 	private Integer squareMeters;
 
 	public Long getId() {
@@ -150,11 +176,10 @@ public class Property implements Serializable {
 		setProvinces(provinces);
 		return this;
 	}
-	
+
 	public Property withSquareMeters(Integer squareMeters) {
 		setSquareMeters(squareMeters);
 		return this;
 	}
-
 
 }

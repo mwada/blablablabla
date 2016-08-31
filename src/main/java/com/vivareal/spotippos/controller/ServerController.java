@@ -1,7 +1,5 @@
 package com.vivareal.spotippos.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,8 +42,7 @@ public class ServerController {
             produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public PropertiesResponse getProperties(Integer ax, Integer ay, Integer bx, Integer by)  {
-    	List<Property> properties =  propertyService.getProperties(new Boundaries(ax, ay, bx, by));
-        return new PropertiesResponse(properties);
+        return new PropertiesResponse(propertyService.getProperties(new Boundaries(ax, ay, bx, by)));
     }
 
 }
