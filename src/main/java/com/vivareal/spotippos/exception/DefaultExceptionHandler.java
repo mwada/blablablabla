@@ -23,7 +23,7 @@ public class DefaultExceptionHandler {
 		List<String> errors = new ArrayList<>();
 		for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
 			String field = constraintViolation.getPropertyPath().toString();
-			errors.add("Field[" + field.substring(field.lastIndexOf(".")) + "] "+ constraintViolation.getMessage());
+			errors.add("Field[" + field.substring(field.lastIndexOf(".")+1) + "] "+ constraintViolation.getMessage());
 		}
 		return new ExceptionMessage(ex.getClass().getSimpleName(), errors);
 	}

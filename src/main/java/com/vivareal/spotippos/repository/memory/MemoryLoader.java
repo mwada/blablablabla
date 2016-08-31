@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -21,9 +22,11 @@ import com.vivareal.spotippos.model.Province;
 @Service
 public class MemoryLoader {
 
-	private final static String PROVINCE_FILE = "/provinces.json";
+	@Value("${province.file:/provinces.json}")
+	private String provinceFile;
 
-	private final static String PROPERTY_FILE = "/properties.json";
+	@Value("${properties.file:/properties.json}")
+	private String propertyFile;
 
 	@Autowired
 	private MemoryTerritoryRepository memoryTerritoryDao;
@@ -40,7 +43,7 @@ public class MemoryLoader {
 	}
 	
 	protected List<Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
-	    InputStream in = getClass().getResourceAsStream(PROVINCE_FILE);
+	    InputStream in = getClass().getResourceAsStream(provinceFile);
 		Map<String, Province> provinces =  new ObjectMapper().readValue(in, new TypeReference<Map<String, Province>>() {
 		});
 		provinces.forEach((name, province)->province.setName(name));
@@ -48,7 +51,7 @@ public class MemoryLoader {
 	}
 
 	protected List<Property> loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {
-	    InputStream in = getClass().getResourceAsStream(PROPERTY_FILE);
+	    InputStream in = getClass().getResourceAsStream(propertyFile);
 	    JsonProperties properties = new ObjectMapper().readValue(in, new TypeReference<JsonProperties>() {
 		});
 		return properties.getProperties();

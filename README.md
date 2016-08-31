@@ -5,6 +5,7 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 
 ## Requirements
 
+* [Git](https://git-scm.com/)
 * [Docker](https://www.docker.com)
 
 
@@ -17,18 +18,23 @@ Code implementation for [Viva Real back-end challenge](https://github.com/VivaRe
 * [Swagger 2.0](http://swagger.io/)
 
 
-## Running application from source
+## Running application from docker image
+
+This application uses [CircleCI](https://circleci.com) for Continuous Integration. Every push generates a docker image that is pushed to [Docker Hub](https://hub.docker.com/r/mwada/spotippos/)
+You can run the application using this command:
 
 ```sh
-$ docker build -t spotippos .
-$ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it spotippos
+$ docker run -e JAVA_OPTS='-Xmx1G' -p 8080:8080 -it mwada/spotippos
 ```
 
 
-## Running application from docker image
+## Running application from source
 
 ```sh
-$ docker run -e JAVA_OPTS='-Xmx1G -Xms1G' -p 8080:8080 -it mwada/spotippos
+$ clone https://github.com/mwada/spotippos
+$ cd spotippos
+$ docker build -t mwada/spotippos .
+$ docker run -e JAVA_OPTS='-Xmx1G' -p 8080:8080 -it mwada/spotippos
 ```
 
 

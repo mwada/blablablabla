@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -19,13 +20,14 @@ import com.vivareal.spotippos.model.Province;
 
 public class MemoryLoaderTest {
 
-	private MemoryLoader loader;
+	private MemoryLoader loader = new MemoryLoader();
 
 	@Before
 	public void before() {
-		loader = new MemoryLoader();
+		ReflectionTestUtils.setField(loader, "provinceFile", "/provinces.json");
+		ReflectionTestUtils.setField(loader, "propertyFile", "/properties.json");
 	}
-
+	
 	@Test
 	public void testLoadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
 		List<Province> provinces = loader.loadProvinceFile();
