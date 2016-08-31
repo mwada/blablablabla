@@ -2,11 +2,19 @@ package com.vivareal.spotippos.model;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 public class Coordinate implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Min(0)
+	@Max(1400)
 	private Integer x;
+
+	@Min(0)
+	@Max(1000)
 	private Integer y;
 
 	public Coordinate() {

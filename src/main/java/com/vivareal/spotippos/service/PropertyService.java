@@ -16,6 +16,6 @@ public interface PropertyService {
 
 	Property getProperty(Long id);
 	
-	List<Property> getProperties(Boundaries boundaries);
+	List<Property> getProperties(@Valid Boundaries boundaries);
 
 }

@@ -1,12 +1,12 @@
 {
-  "id": 665,
-  "title": "Imóvel código 665, com 1 quarto e 1 banheiro",
-  "price": 540000,
-  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "x": 667,
-  "y": 556,
-  "beds": 1,
-  "baths": 1,
-  "provinces" : ["Ruja"],
-  "squareMeters": 42
+  "id": 1,
+  "title": "Imóvel código 1, com 3 quartos e 2 banheiros.",
+  "price": 643000,
+  "description": "Laboris quis quis elit commodo eiusmod qui exercitation. In laborum fugiat quis minim occaecat id.",
+  "x": 1257,
+  "y": 928,
+  "beds": 3,
+  "baths": 2,
+  "provinces" : ["Jaby"],
+  "squareMeters": 61
 }

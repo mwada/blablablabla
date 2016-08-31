@@ -1,4 +1,4 @@
-package com.vivareal.spotippos.model;
+package com.vivareal.spotippos.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -13,10 +13,11 @@ import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
 import org.springframework.boot.test.json.JacksonTester;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vivareal.spotippos.model.Property;
 
-public class PropertyTest {
+public class PropertiesResponseTest {
 
-	private JacksonTester<Property> json;
+	private JacksonTester<PropertiesResponse> json;
 
 	@Before
 	public void before() {
@@ -25,16 +26,20 @@ public class PropertyTest {
 
 	@Test
 	public void testSerializeProperty() throws IOException {
-		Property property = createProperty();
-		assertThat(json.write(property)).isEqualToJson("/property.json");
+		PropertiesResponse response = createPropertiesResponse();
+		assertThat(json.write(response)).isEqualToJson("/propertiesResponse.json");
 	}
 
 	@Test
 	public void testDeserializeProperty() throws IOException {
-		Property property = createProperty();
-		assertThat(json.read("/property.json").getObject(), new ReflectionEquals(property));
+		PropertiesResponse response = createPropertiesResponse();
+		assertThat(json.read("/propertiesResponse.json").getObject(), new ReflectionEquals(response));
 	}
 
+	private PropertiesResponse createPropertiesResponse() {
+		return new PropertiesResponse(Arrays.asList(createProperty()));
+	}
+	
 	private Property createProperty() {
 		return new Property().withId(1L).withTitle("Imóvel código 1, com 3 quartos e 2 banheiros.").withPrice(643000)
 				.withDescription(

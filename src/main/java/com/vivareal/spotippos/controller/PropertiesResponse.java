@@ -13,6 +13,9 @@ public class PropertiesResponse implements Serializable {
 	
 	private List<Property> properties;
 
+	public PropertiesResponse() {
+	}
+
 	public PropertiesResponse(List<Property> properties) {
 		this.foundProperties = properties.size();
 		this.properties = properties;
@@ -33,5 +36,6 @@ public class PropertiesResponse implements Serializable {
 	public void setProperties(List<Property> properties) {
 		this.properties = properties;
 	}
+
 
 }
