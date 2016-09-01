@@ -41,7 +41,8 @@ $ docker run -p 8080:8080 -it mwada/spotippos
 ## Importing provinces/properties data
 
 ```sh
-$ ./load.sh localhost 8080
+$ curl -H "Content-Type: application/json" -X POST -d @./data/provinces.json -v http://localhost:8080/loadProvinces
+$ curl -H "Content-Type: application/json" -X POST -d @./data/properties.json -v http://localhost:8080/loadProperties
 ```
 
 ## Endpoints
