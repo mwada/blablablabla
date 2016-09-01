@@ -35,6 +35,12 @@ $ clone https://github.com/mwada/spotippos
 $ cd spotippos
 $ docker build -t mwada/spotippos .
 $ docker run -p 8080:8080 -it mwada/spotippos
+
+
+## Importing provinces/properties
+
+```sh
+$ ./load.sh localhost 8080
 ```
 
 

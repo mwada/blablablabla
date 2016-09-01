@@ -6,6 +6,6 @@ WORKDIR /usr/src/app
 
 RUN mvn install
 
-CMD ["java","-Xmx1G","-jar","target/spotippos.jar"]
+CMD ["java","-Xms1G","-Xmx1G","-jar","target/spotippos.jar"]
 
 EXPOSE 8080
