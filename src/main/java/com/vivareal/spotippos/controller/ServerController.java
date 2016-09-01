@@ -1,12 +1,14 @@
 package com.vivareal.spotippos.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +22,7 @@ public class ServerController {
 	@Autowired
 	private PropertyService propertyService;
 	
-    @RequestMapping(value = "/properties",
-            method = RequestMethod.POST,
+	@PostMapping(value = "/properties",
             consumes =  { MediaType.APPLICATION_JSON_VALUE },
             produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
@@ -29,20 +30,36 @@ public class ServerController {
         return propertyService.addProperty(property);
     }
 
-    @RequestMapping(value = "/properties/{id}",
-            method = RequestMethod.GET,
+    @GetMapping(value = "/properties/{id}",
             produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public Property getProperty(@PathVariable("id") Long id)  {
         return propertyService.getProperty(id);
     }
 
-    @RequestMapping(value = "/properties",
-            method = RequestMethod.GET,
+    @GetMapping(value = "/properties",
             produces = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.OK)
     public PropertiesResponse getProperties(Integer ax, Integer ay, Integer bx, Integer by)  {
         return new PropertiesResponse(propertyService.getProperties(new Boundaries(ax, ay, bx, by)));
+    }
+    
+    public class PropertiesResponse {
+    	private Integer foundProperties;
+    	private List<Property> properties;
+
+    	public PropertiesResponse(List<Property> properties) {
+    		this.foundProperties = properties.size();
+    		this.properties = properties;
+    	}
+
+    	public Integer getFoundProperties() {
+    		return foundProperties;
+    	}
+
+    	public List<Property> getProperties() {
+    		return properties;
+    	}
     }
 
 }

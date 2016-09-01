@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ExceptionMessage {
+	
 	private String exception;
 	private List<String> errors;
 

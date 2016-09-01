@@ -31,9 +31,10 @@ public class ServerControllerTest {
 
 	private JacksonTester<Property> propertyJson;
 
+	private JacksonTester<ExceptionMessage> errorJson;
+
 	private JacksonTester<PropertiesResponse> propertiesResponseJson;
 
-	private JacksonTester<ExceptionMessage> errorJson;
 
 	@Before
 	public void before() {
@@ -42,54 +43,59 @@ public class ServerControllerTest {
 
 	@Test
 	public void testFindValidProperty() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties/1", String.class);
+		ResponseEntity<Property> entity = restTemplate.getForEntity("/properties/1", Property.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.OK));
-		assertThat(propertyJson.write(propertyJson.parse(entity.getBody()).getObject()))
-				.isEqualToJson("/property.json");
+		assertThat(propertyJson.write(entity.getBody())).isEqualToJson("/property.json");
 	}
 
 	@Test
 	public void testFindNotFoundProperty() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties/0", String.class);
+		ResponseEntity<ExceptionMessage> entity = restTemplate.getForEntity("/properties/0", ExceptionMessage.class);
 		String error = "{\"exception\":\"EntityNotFoundException\",\"errors\":[\"Could not find property[0]\"]}";
-		assertThat(errorJson.write(errorJson.parse(entity.getBody()).getObject())).isEqualToJson(error);
 		assertThat(entity.getStatusCode(), is(HttpStatus.NOT_FOUND));
+		assertThat(errorJson.write(entity.getBody())).isEqualToJson(error);
 	}
 
 	@Test
 	public void testFindInvalidProperty() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties/a", String.class);
+		ResponseEntity<ExceptionMessage> entity = restTemplate.getForEntity("/properties/a", ExceptionMessage.class);
 		String error = "{\"exception\":\"MethodArgumentTypeMismatchException\","
 				+ "\"errors\":[\"Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; "
 				+ "nested exception is java.lang.NumberFormatException: For input string: \\\"a\\\"\"]}";
-		assertThat(errorJson.write(errorJson.parse(entity.getBody()).getObject())).isEqualToJson(error);
 		assertThat(entity.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+		assertThat(errorJson.write(entity.getBody())).isEqualToJson(error);
 	}
 
 	@Test
 	public void testFindValidProperties() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=1257&by=928", String.class);
+		ResponseEntity<PropertiesResponse> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=1257&by=928", PropertiesResponse.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.OK));
-		assertThat(propertiesResponseJson.write(propertiesResponseJson.parse(entity.getBody()).getObject()))
-				.isEqualToJson("/propertiesResponse.json");
+		assertThat(propertiesResponseJson.write(entity.getBody())).isEqualToJson("/propertiesResponse.json");
 	}
 	
 	@Test
 	public void testFindNotFoundProperties() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=0&by=0", String.class);
+		ResponseEntity<PropertiesResponse> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=0&by=0", PropertiesResponse.class);
 		String json = "{\"foundProperties\": 0,\"properties\": []}"; 
 		assertThat(entity.getStatusCode(), is(HttpStatus.OK));
-		assertThat(propertiesResponseJson.write(propertiesResponseJson.parse(entity.getBody()).getObject()))
-				.isEqualToJson(json);
+		assertThat(propertiesResponseJson.write(entity.getBody())).isEqualToJson(json);
 	}
 	
 	@Test
 	public void testFindInvalidProperties() throws IOException {
-		ResponseEntity<String> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=0&by=a", String.class);
+		ResponseEntity<ExceptionMessage> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=0&by=a", ExceptionMessage.class);
 		String error = "{\"exception\":\"MethodArgumentTypeMismatchException\","
 				+ "\"errors\":[\"Failed to convert value of type [java.lang.String] to required type [java.lang.Integer]; "
 				+ "nested exception is java.lang.NumberFormatException: For input string: \\\"a\\\"\"]}";
-		assertThat(errorJson.write(errorJson.parse(entity.getBody()).getObject())).isEqualToJson(error);
 		assertThat(entity.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+		assertThat(errorJson.write(entity.getBody())).isEqualToJson(error);
 	}
+	
+	@Test
+	public void testAddValidProperty() throws IOException {
+		Property property = propertyJson.readObject("/property.json");
+		ResponseEntity<Property> entity = restTemplate.postForEntity("/properties", property, Property.class);
+		assertThat(entity.getStatusCode(), is(HttpStatus.CREATED));
+	}
+
 }
