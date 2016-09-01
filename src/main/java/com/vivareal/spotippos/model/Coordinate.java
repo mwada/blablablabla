@@ -5,71 +5,72 @@ import java.io.Serializable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.StandardToStringStyle;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 public class Coordinate implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Min(0)
-	@Max(1400)
-	private Integer x;
+    @Min(0)
+    @Max(1400)
+    private Integer x;
 
-	@Min(0)
-	@Max(1000)
-	private Integer y;
+    @Min(0)
+    @Max(1000)
+    private Integer y;
 
-	public Coordinate() {
-	}
+    public Coordinate() {
+    }
 
-	public Coordinate(Integer x, Integer y) {
-		this.x = x;
-		this.y = y;
-	}
+    public Coordinate(Integer x, Integer y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	public Integer getX() {
-		return x;
-	}
+    public Integer getX() {
+        return x;
+    }
 
-	public void setX(Integer x) {
-		this.x = x;
-	}
+    public void setX(Integer x) {
+        this.x = x;
+    }
 
-	public Integer getY() {
-		return y;
-	}
+    public Integer getY() {
+        return y;
+    }
 
-	public void setY(Integer y) {
-		this.y = y;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((x == null) ? 0 : x.hashCode());
-		result = prime * result + ((y == null) ? 0 : y.hashCode());
-		return result;
-	}
+    public void setY(Integer y) {
+        this.y = y;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Coordinate other = (Coordinate) obj;
-		if (x == null) {
-			if (other.x != null)
-				return false;
-		} else if (!x.equals(other.x))
-			return false;
-		if (y == null) {
-			if (other.y != null)
-				return false;
-		} else if (!y.equals(other.y))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(x)
+                .append(y)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Coordinate) {
+            Coordinate other = (Coordinate) obj;
+            EqualsBuilder builder = new EqualsBuilder();
+            builder.append(getX(), other.getX());
+            builder.append(getY(), other.getY());
+            return builder.isEquals();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StandardToStringStyle stringStyle = new StandardToStringStyle();
+        stringStyle.setUseShortClassName(true);
+        return ToStringBuilder.reflectionToString(this, stringStyle);
+    }
 
 }
