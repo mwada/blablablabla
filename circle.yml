@@ -27,7 +27,7 @@ deployment:
     tag: /[0-9]+(\.[0-9]+)*/
     owner: mwada
     commands:
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mwada/spotippos
       - docker tag mwada/spotippos mwada/spotippos:$CIRCLE_TAG
       - docker push mwada/spotippos:$CIRCLE_TAG
