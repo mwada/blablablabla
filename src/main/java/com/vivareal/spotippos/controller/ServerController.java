@@ -44,9 +44,12 @@ public class ServerController {
         return new PropertiesResponse(propertyService.getProperties(new Boundaries(ax, ay, bx, by)));
     }
     
-    public class PropertiesResponse {
+    public static class PropertiesResponse {
     	private Integer foundProperties;
     	private List<Property> properties;
+    	
+    	public PropertiesResponse() {
+    	}
 
     	public PropertiesResponse(List<Property> properties) {
     		this.foundProperties = properties.size();

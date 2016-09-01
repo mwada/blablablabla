@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vivareal.spotippos.controller.ServerController.PropertiesResponse;
 import com.vivareal.spotippos.exception.ExceptionMessage;
 import com.vivareal.spotippos.model.Property;
 

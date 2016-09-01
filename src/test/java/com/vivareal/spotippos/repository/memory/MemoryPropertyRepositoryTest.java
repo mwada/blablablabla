@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class MemoryPropertyRepositoryTest {
 		assertThat(retrievedProperty, new ReflectionEquals(property, "id"));
 		Long id = property.getId();
 		assertThat(id, is(propertySeq.get() - 1));
-		assertThat(retrievedProperty, new ReflectionEquals(propertyDb.get(id)));
+		assertThat(retrievedProperty, samePropertyValuesAs(propertyDb.get(id)));
 	}
 
 	@Test
@@ -54,7 +55,7 @@ public class MemoryPropertyRepositoryTest {
 		property.setId(propertySeq.getAndIncrement());
 		propertyDb.put(property.getId(), property);
 		Property retrievedProperty = repository.find(property.getId());
-		assertThat(retrievedProperty, new ReflectionEquals(property));
+		assertThat(retrievedProperty, samePropertyValuesAs(property));
 	}
 	
 	@Test
