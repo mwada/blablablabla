@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vivareal.spotippos.exception.ExceptionMessage;
 import com.vivareal.spotippos.model.Property;
+import com.vivareal.spotippos.model.Province;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -34,6 +36,10 @@ public class ServerControllerTest {
 	private JacksonTester<ExceptionMessage> errorJson;
 
 	private JacksonTester<PropertiesResponse> propertiesResponseJson;
+
+	private JacksonTester<PropertiesRequest> propertiesRequestJson;
+
+	private JacksonTester<Map<String,Province>> provincesRequestJson;
 
 
 	@Before
@@ -95,6 +101,20 @@ public class ServerControllerTest {
 	public void testAddValidProperty() throws IOException {
 		Property property = propertyJson.readObject("/property.json");
 		ResponseEntity<Property> entity = restTemplate.postForEntity("/properties", property, Property.class);
+		assertThat(entity.getStatusCode(), is(HttpStatus.CREATED));
+	}
+
+	@Test
+	public void testLoadProperties() throws IOException {
+		PropertiesRequest request = propertiesRequestJson.readObject("/propertiesrequest.json");
+		ResponseEntity<String> entity = restTemplate.postForEntity("/loadProperties", request, String.class);
+		assertThat(entity.getStatusCode(), is(HttpStatus.CREATED));
+	}
+
+	@Test
+	public void testLoadProvinces() throws IOException {
+		Map<String,Province> request = provincesRequestJson.readObject("/provincesrequest.json");
+		ResponseEntity<String> entity = restTemplate.postForEntity("/loadProvinces", request, String.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.CREATED));
 	}
 

@@ -12,6 +12,9 @@ public class PropertiesRequest {
 	private Integer totalProperties;
 
 	private List<PropertyRequest> properties;
+	
+	public PropertiesRequest() {
+	}
 
 	public Integer getTotalProperties() {
 		return totalProperties;
@@ -31,9 +34,12 @@ public class PropertiesRequest {
 		return propertiesList;
 	}
 
-	public class PropertyRequest extends Property {
+	public static class PropertyRequest extends Property {
 
 		private static final long serialVersionUID = 1L;
+
+		public PropertyRequest() {
+		}
 
 		public void setLat(Integer x) {
 			this.setX(x);
