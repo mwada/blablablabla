@@ -1,8 +1,8 @@
-package com.vivareal.spotippos.service;
+package com.vivareal.spotippos.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -14,36 +14,35 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vivareal.spotippos.model.Property;
 import com.vivareal.spotippos.model.Province;
 
 @Component
 public class MemoryLoad  {
 	
-	@Value("${province.file:/provinces.json}")
+	@Value("${province.file:/provincesrequest.json}")
 	private String provinceFile;
 
-	@Value("${properties.file:/properties.json}")
+	@Value("${properties.file:/propertiesrequest.json}")
 	private String propertyFile;
 	
 	@Autowired
-	private PropertyService propertyService;
+	private ServerController serverController;
 	
 	@PostConstruct
 	public void load() throws JsonParseException, JsonMappingException, IOException {
-		loadProvinceFile().forEach(p->propertyService.addProvince(p));
-		loadPropertyFile().forEach(p->propertyService.addProperty(p));
+        serverController.addProvinces(loadProvinceFile());
+        serverController.addProperties(loadPropertyFile());
 	}
 	
-	protected List<Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
+	protected Map<String, Province> loadProvinceFile() throws JsonParseException, JsonMappingException, IOException {
 	    InputStream in = getClass().getResourceAsStream(provinceFile);
-		return  new ObjectMapper().readValue(in, new TypeReference<List<Province>>() {
+		return  new ObjectMapper().readValue(in, new TypeReference<Map<String, Province>>() {
 		});
 	}
 
-	protected List<Property> loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {
+	protected PropertiesRequest loadPropertyFile() throws JsonParseException, JsonMappingException, IOException {
 	    InputStream in = getClass().getResourceAsStream(propertyFile);
-	    return new ObjectMapper().readValue(in, new TypeReference<List<Property>>() {
+	    return new ObjectMapper().readValue(in, new TypeReference<PropertiesRequest>() {
 		});
 	}
 
