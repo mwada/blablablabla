@@ -20,13 +20,13 @@ deployment:
   latest:
     branch: master
     commands:
-      - docker login -e $EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push mwada/spotippos
 
   release:
     tag: /[0-9]+(\.[0-9]+)*/
     owner: mwada
     commands:
-      - docker login -e $EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker tag mwada/spotippos mwada/spotippos:$CIRCLE_TAG
       - docker push mwada/spotippos:$CIRCLE_TAG
