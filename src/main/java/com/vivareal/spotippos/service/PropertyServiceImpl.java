@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
+import com.vivareal.spotippos.model.Province;
 import com.vivareal.spotippos.repository.PropertyRepository;
+import com.vivareal.spotippos.repository.ProvinceRepository;
 import com.vivareal.spotippos.repository.TerritoryRepository;
 
 @Service
@@ -18,6 +20,9 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
 	private PropertyRepository propertyRepository;
+
+	@Autowired
+	private ProvinceRepository provinceRepository;
 
 	@Autowired
 	private TerritoryRepository territoryRepository;
@@ -47,6 +52,12 @@ public class PropertyServiceImpl implements PropertyService {
 			properties.add(propertyRepository.find(id));
 		}
 		return properties;
+	}
+
+	@Override
+	public Province addProvince(Province province) {
+		territoryRepository.addProvince(province.getBoundaries(), province.getName());
+		return provinceRepository.add(province);
 	}
 
 }

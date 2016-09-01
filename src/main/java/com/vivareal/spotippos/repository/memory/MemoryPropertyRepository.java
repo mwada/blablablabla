@@ -1,7 +1,6 @@
 package com.vivareal.spotippos.repository.memory;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,8 +24,13 @@ public class MemoryPropertyRepository implements PropertyRepository {
 
 	@Override
 	public Property add(Property property) {
-		property.setId(propertySeq.getAndIncrement());
-		propertyDb.put(property.getId(), property);
+		if (property.getId() == null) {
+			property.setId(propertySeq.getAndIncrement());
+			propertyDb.put(property.getId(), property);
+		} else {
+			propertyDb.put(property.getId(), property);
+			propertySeq.set(Collections.max(propertyDb.keySet()) + 1);
+		}
 		return property;
 	}
 
@@ -35,10 +39,4 @@ public class MemoryPropertyRepository implements PropertyRepository {
 		return propertyDb.get(id);
 	}
 
-	protected void loadProperties(List<Property> properties) {
-		for (Property property : properties) {
-			propertyDb.put(property.getId(), property);
-		}
-		propertySeq.set(Collections.max(propertyDb.keySet()) + 1);
-	}
 }

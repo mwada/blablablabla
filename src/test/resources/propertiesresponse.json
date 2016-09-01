@@ -1,0 +1,17 @@
+{
+  "foundProperties": 1,
+  "properties": [
+    {
+      "id": 2,
+      "title": "Imóvel código 2, com 4 quartos e 3 banheiros.",
+      "price": 949000,
+      "description": "Anim mollit aliqua adipisicing labore magna pariatur aute nulla. Amet veniam ut voluptate aliquip esse officia adipisicing ipsum.",
+      "x": 679,
+      "y": 680,
+      "beds": 4,
+      "baths": 3,
+      "provinces": ["Ruja"],
+      "squareMeters": 94
+    }
+  ]
+}

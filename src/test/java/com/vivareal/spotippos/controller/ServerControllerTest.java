@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vivareal.spotippos.controller.ServerController.PropertiesResponse;
 import com.vivareal.spotippos.exception.ExceptionMessage;
 import com.vivareal.spotippos.model.Property;
 
@@ -69,9 +68,9 @@ public class ServerControllerTest {
 
 	@Test
 	public void testFindValidProperties() throws IOException {
-		ResponseEntity<PropertiesResponse> entity = restTemplate.getForEntity("/properties?ax=1257&ay=928&bx=1257&by=928", PropertiesResponse.class);
+		ResponseEntity<PropertiesResponse> entity = restTemplate.getForEntity("/properties?ax=679&ay=680&bx=679&by=680", PropertiesResponse.class);
 		assertThat(entity.getStatusCode(), is(HttpStatus.OK));
-		assertThat(propertiesResponseJson.write(entity.getBody())).isEqualToJson("/propertiesResponse.json");
+		assertThat(propertiesResponseJson.write(entity.getBody())).isEqualToJson("/propertiesresponse.json");
 	}
 	
 	@Test

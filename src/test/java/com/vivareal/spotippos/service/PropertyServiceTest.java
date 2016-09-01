@@ -20,17 +20,18 @@ import javax.validation.ConstraintViolationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
+import com.vivareal.spotippos.model.Province;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = PropertyServiceConfig.class, loader = AnnotationConfigContextLoader.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class PropertyServiceTest {
 
 	@Autowired
@@ -88,6 +89,12 @@ public class PropertyServiceTest {
 	@Test
 	public void testAddPropertyWithSquareMetersRange() {
 		assertRange("squareMeters", 20, 240);
+	}
+
+	public void testAddProvince() {
+		Province province = new Province().withName("name").withBoundaries(new Boundaries(0, 0,0,0));
+		Province retrievedProvince = service.addProvince(province);
+		assertThat(retrievedProvince, samePropertyValuesAs(province));
 	}
 
 	private void assertRange(String attribute, Integer min, Integer max) {

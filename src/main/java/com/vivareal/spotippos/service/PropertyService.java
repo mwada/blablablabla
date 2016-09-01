@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
+import com.vivareal.spotippos.model.Province;
 
 @Validated
 public interface PropertyService {
@@ -18,4 +19,6 @@ public interface PropertyService {
 	
 	List<Property> getProperties(@Valid Boundaries boundaries);
 
+	Province addProvince(Province province);
+	
 }

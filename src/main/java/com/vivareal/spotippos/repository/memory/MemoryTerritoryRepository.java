@@ -1,7 +1,6 @@
 package com.vivareal.spotippos.repository.memory;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Coordinate;
 import com.vivareal.spotippos.model.Position;
-import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.model.Province;
 import com.vivareal.spotippos.repository.TerritoryRepository;
 
 @Repository
@@ -46,24 +43,17 @@ public class MemoryTerritoryRepository implements TerritoryRepository {
 		}
 		return ids;
 	}
-
-	protected List<Property> loadTerritory(List<Province> provinces, List<Property> properties) {
-		for (Province province : provinces) {
-			for (Coordinate coordinate : province.getBoundaries().getCoordinates()) {
-				addProvince(coordinate, province.getName());
-			}
-		}
-		for (Property property : properties) {
-			addProperty(property.getCoordinate(), property.getId());
-			property.setProvinces(findProvinces(property.getCoordinate()));
-		}
-		return properties;
-	}
 	
+	@Override
+	public void addProvince(Boundaries boundaries, String name) {
+		boundaries.getCoordinates().forEach(c -> addProvince(c, name));
+	}
+
 	protected void addProvince(Coordinate coordinate, String name) {
 		Position position = territoryDb.getOrDefault(coordinate, new Position(coordinate));
 		position.addProvince(name);
 		territoryDb.put(coordinate, position);
 	}
+
 
 }

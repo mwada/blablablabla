@@ -11,6 +11,8 @@ public interface TerritoryRepository  {
 
 	Set<Long> findProperties(Boundaries boundaries);
 
+	void addProvince(Boundaries boundaries, String name);
+
 	Set<String> findProvinces(Coordinate coordinate);
 	
 }

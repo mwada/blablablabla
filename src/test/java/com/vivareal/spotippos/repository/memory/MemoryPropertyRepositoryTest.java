@@ -1,14 +1,11 @@
 package com.vivareal.spotippos.repository.memory;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -56,15 +53,6 @@ public class MemoryPropertyRepositoryTest {
 		propertyDb.put(property.getId(), property);
 		Property retrievedProperty = repository.find(property.getId());
 		assertThat(retrievedProperty, samePropertyValuesAs(property));
-	}
-	
-	@Test
-	public void testLoadProperties() {
-		List<Property> properties = Arrays.asList(createProperty(1L), createProperty(2L));
-		repository.loadProperties(properties);
-		assertThat(propertyDb.keySet(), hasSize(2));
-		assertThat(propertyDb.keySet().containsAll(Arrays.asList(1L, 2L)), is(true));
-		assertThat(propertySeq.get(), is(3L));
 	}
 	
 	private Property createProperty(Long id) {
