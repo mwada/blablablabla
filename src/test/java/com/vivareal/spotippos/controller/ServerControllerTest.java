@@ -16,7 +16,6 @@ import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +24,6 @@ import com.vivareal.spotippos.model.Property;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = { "province.file = /provincesTest.json", "property.file = /propertiesTest.json" })
 public class ServerControllerTest {
 
 	@Autowired

@@ -27,7 +27,6 @@ public class PropertiesResponseTest {
 		PropertiesResponse response = createPropertiesResponse();
 		assertThat(json.write(response)).isEqualToJson("/propertiesResponse.json");
 	}
-
 	
 	private PropertiesResponse createPropertiesResponse() {
 		return new PropertiesResponse(Arrays.asList(createProperty()));

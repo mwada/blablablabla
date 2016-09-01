@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -84,7 +85,11 @@ public class MemoryLoader {
 
 		public List<Property> getProperties() {
 			List<Property> propertiesList = new ArrayList<>();
-			properties.forEach(p->propertiesList.add((Property) p)); 
+			for (JsonProperty p : properties) {
+				Property property = new Property();
+				BeanUtils.copyProperties(p, property);
+				propertiesList.add(property);
+			}
 			return propertiesList;
 		}
 	}

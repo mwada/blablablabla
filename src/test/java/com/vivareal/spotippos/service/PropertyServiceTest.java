@@ -1,98 +1,144 @@
 package com.vivareal.spotippos.service;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.IntStream;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import com.vivareal.spotippos.exception.EntityNotFoundException;
 import com.vivareal.spotippos.model.Boundaries;
 import com.vivareal.spotippos.model.Property;
-import com.vivareal.spotippos.repository.PropertyRepository;
-import com.vivareal.spotippos.repository.TerritoryRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = PropertyServiceConfig.class, loader = AnnotationConfigContextLoader.class)
 public class PropertyServiceTest {
 
-	@InjectMocks
-	private PropertyService service = new PropertyServiceImpl();
+	@Autowired
+	private PropertyService service;
 
-	@Mock
-	private PropertyRepository propertyDao;
-
-	@Mock
-	private TerritoryRepository territoryDao;
-
-	@Test
-	public void testAddProperty() {
-		Property property = createProperty(null);
-		Long id = 1L;
-		List<String> provinces = Arrays.asList("Goja");
-		when(territoryDao.findProvinces(property.getCoordinate())).thenReturn(new HashSet<>(provinces));
-		when(propertyDao.add(property)).thenReturn(property.withId(id));
-		Property retrievedProperty = service.addProperty(property);
-		assertThat(retrievedProperty.getId(), is(id));
-		assertThat(retrievedProperty.getProvinces().containsAll(provinces), is(true));
-		verify(territoryDao).addProperty(property.getCoordinate(), id);
-	}
 	
 	@Test(expected=EntityNotFoundException.class)
 	public void testFindInvalidProperty() {
-		service.getProperty(1L);
+		service.getProperty(0L);
 	}
 
 	@Test
 	public void testFindValidProperty() {
-		Long id = 1L;
-		Property property = createProperty(id);
-        when(propertyDao.find(id)).thenReturn(property);
-		Property retrievedProperty = service.getProperty(id);
-		assertThat(retrievedProperty, new ReflectionEquals(property));
+		Property retrievedProperty = service.getProperty(1L);
+		assertThat(retrievedProperty, samePropertyValuesAs(createProperty(1L, Arrays.asList("Jaby"))));
 	}
 	
 	@Test
 	public void testFindInvalidProperties() {
-		Boundaries boundaries = new Boundaries(0, 0, 1, 1);
-		List<Property> retrievedProperties = service.getProperties(boundaries);
+		List<Property> retrievedProperties = service.getProperties(new Boundaries(0, 0, 1, 1));
 		assertThat(retrievedProperties, is(empty()));
 	}
 
 	@Test
 	public void testFindValidProperties() {
-		Long id = 1L;
-		Property property = createProperty(id);
-		when(propertyDao.find(id)).thenReturn(property);
-		Boundaries boundaries = new Boundaries(0, 0, 1, 1);
-		when(territoryDao.findProperties(boundaries)).thenReturn(new HashSet<>(Arrays.asList(id)));
-		List<Property> retrievedProperties = service.getProperties(boundaries);
+		List<Property> retrievedProperties = service.getProperties(new Boundaries(679, 680, 679, 680));
 		assertThat(retrievedProperties, hasSize(1));
-		assertThat(retrievedProperties.get(0), new ReflectionEquals(property));
+	}
+	
+	@Test
+	public void testFindPropertiesWithBoundariesRange() {
+		assertRange("x", 0, 1400);
+	}
+	
+	@Test
+	public void testAddPropertyWithXRange() {
+		assertRange("x", 0, 1400);
 	}
 
-	private Property createProperty(Long id) {
+	@Test
+	public void testAddPropertyWithYRange() {
+		assertRange("y", 0, 1000);
+	}
+
+	@Test
+	public void testAddPropertyWithBedsRange() {
+		assertRange("beds", 1, 5);
+	}
+
+	@Test
+	public void testAddPropertyWithBathsRange() {
+		assertRange("baths", 1, 4);
+	}
+
+	@Test
+	public void testAddPropertyWithSquareMetersRange() {
+		assertRange("squareMeters", 20, 240);
+	}
+
+	private void assertRange(String attribute, Integer min, Integer max) {
+		assertInvalidRange(attribute, min-1, "must be greater than or equal to");
+		assertValidRange(attribute, min, max);
+		assertInvalidRange(attribute, max+1, "must be less than or equal to");
+	}
+	
+	private void assertInvalidRange(String attribute, Integer range, String message) {
+		try {
+			Property property = createNewProperty();
+			ReflectionTestUtils.setField(property, attribute, range);
+			service.addProperty(property);
+			fail();
+		}catch(ConstraintViolationException e) {
+			assertThat(e.getConstraintViolations(), hasSize(1));
+			for (ConstraintViolation<?> v : e.getConstraintViolations()) {
+				assertThat(v.getMessage(), containsString(message));
+			}
+		}
+	}
+
+	private void assertValidRange(String attribute, Integer min, Integer max) {
+		IntStream.range(min, max).forEach(
+				i -> {
+					Property property = createNewProperty();
+					ReflectionTestUtils.setField(property, attribute, i);
+					Property retrievedProperty = service.addProperty(property);
+					property.withId(retrievedProperty.getId()).withProvinces(retrievedProperty.getProvinces());
+					assertThat(retrievedProperty, samePropertyValuesAs(property));
+				}
+			  );
+	}
+
+	private Property createNewProperty() {
+		return createProperty(null, null);
+	}
+
+	private Property createProperty(Long id, List<String> provinces) {
+		Set<String> set = provinces == null? null: new HashSet<>(provinces);
 		return new Property()
 				.withId(id)
-				.withTitle("title " + id)
-				.withPrice(1)
-				.withDescription("description " +id)
-				.withX(1)
-				.withY(1)
-				.withBeds(1)
-				.withBaths(1)
-				.withSquareMeters(1);
+				.withTitle("Imóvel código 1, com 3 quartos e 2 banheiros.")
+				.withPrice(643000)
+				.withDescription("Laboris quis quis elit commodo eiusmod qui exercitation. In laborum fugiat quis minim occaecat id.")
+				.withX(1257)
+				.withY(928)
+				.withBeds(3)
+				.withBaths(2)
+				.withProvinces(set)
+				.withSquareMeters(61);
 	}
 
 }
