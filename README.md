@@ -92,6 +92,12 @@ Response:
 }
 ```
 
+Response Code | Description
+------------|---------
+201 | Created
+400 | Invalid Parameters
+500 | Internal Server Error
+
 Example:
 ```sh
 $ curl -H "Content-Type: application/json" -X POST -d '{"x":222,"y":444,"title": "Title","price":1250000,"description":"Description","beds":4,"baths":3,"squareMeters":210}' http://localhost:8080/properties
@@ -119,6 +125,12 @@ Response:
   "squareMeters": 42
 }
 ```
+Response Code | Description
+------------|---------
+200 | OK
+404 | Entity Not Found
+400 | Invalid Parameters
+500 | Internal Server Error
 
 Example:
 ```sh
@@ -154,6 +166,12 @@ Response:
   ]
 }
 ```
+
+Response Code | Description
+------------|---------
+200 | OK
+400 | Invalid Parameters
+500 | Internal Server Error
 
 Example:
 ```sh
